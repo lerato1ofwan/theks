@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Theks.Product.Application.DTOs;
 using Theks.Product.Application.DTOs.Mappings;
 using Theks.Product.Application.Interfaces;
 using Theks.Shared.Responses;
@@ -12,7 +11,7 @@ public class ProductsController
     (IProductRepository productRepository) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
+    public async Task<ActionResult<IEnumerable<Application.DTOs.Product>>> GetProducts()
     {
         var products = await productRepository.GetAllAsync();
 
@@ -22,7 +21,7 @@ public class ProductsController
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ProductDto>> GetProduct(Guid id)
+    public async Task<ActionResult<Application.DTOs.Product>> GetProduct(Guid id)
     {
         var productResult = await productRepository.FindByIdAsync(id);
 
@@ -32,7 +31,7 @@ public class ProductsController
     }
 
     [HttpPost]
-    public async Task<ActionResult<Response>> CreateProduct(ProductDto productDto)
+    public async Task<ActionResult<Response>> CreateProduct(Application.DTOs.Product productDto)
     {
         if (!ModelState.IsValid)
         {
@@ -47,7 +46,7 @@ public class ProductsController
     }
 
     [HttpPut]
-    public async Task<ActionResult<Response>> UpdateProduct(ProductDto productDto)
+    public async Task<ActionResult<Response>> UpdateProduct(Application.DTOs.Product productDto)
     {
         if (!ModelState.IsValid)
         {
@@ -62,7 +61,7 @@ public class ProductsController
     }
 
     [HttpDelete]
-    public async Task<ActionResult<Response>> DeleteProduct(ProductDto productDto)
+    public async Task<ActionResult<Response>> DeleteProduct(Application.DTOs.Product productDto)
     {
         var requestEntity = ProductMapper.ToEntity(productDto);
 
