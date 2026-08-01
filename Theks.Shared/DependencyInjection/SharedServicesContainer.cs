@@ -7,14 +7,14 @@ using Theks.Shared.Middleware;
 
 namespace Theks.Shared.DependencyInjection;
 
-public static class SharedContainer
+public static class SharedServicesContainer
 {
-    public static IServiceCollection AddSharedContainers<TContext>(
+    public static IServiceCollection AddSharedServices<TContext>(
         this IServiceCollection services, IConfiguration configuration, string fileName) where TContext : DbContext
     {
         // @Hint: Generic database context
         services.AddDbContext<TContext>(option => option.UseSqlServer(
-                configuration.GetConnectionString("database"),
+                configuration.GetValue<string>("DB_CONNECTION_STRING"),
                 sqlserverOption => sqlserverOption.EnableRetryOnFailure()));
 
         Log.Logger = new LoggerConfiguration().MinimumLevel.Information()
@@ -35,7 +35,7 @@ public static class SharedContainer
     {
         app.UseMiddleware<GlobalException>();
 
-        app.UseMiddleware<ApiGatewayListener>();
+        //app.UseMiddleware<ApiGatewayListener>();
 
         return app;
     }

@@ -15,9 +15,9 @@ public static class JwtAuthenticationScheme
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
-                var key = Encoding.UTF8.GetBytes(configuration.GetSection("Authentication:Key").Value!);
-                string issuer = configuration.GetSection("Authentication:Issuer").Value!;
-                string audience = configuration.GetSection("Authentication:Audience").Value!;
+                var key = Encoding.UTF8.GetBytes(configuration.GetSection("AUTHENTICATION_KEY").Value!);
+                string issuer = configuration.GetSection("AUTHENTICATION_ISSUER").Value!;
+                string audience = configuration.GetSection("AUTHENTICATION_AUDIENCE").Value!;
 
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
