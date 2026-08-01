@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Theks.Product/">
+    <Project Path="../Theks.Shared/Theks.Shared.csproj" />
+    <Project Path="Theks.Product.Api/Theks.Product.Api.csproj" />
+    <Project Path="Theks.Product.Application/Theks.Product.Application.csproj" />
+    <Project Path="Theks.Product.Domain/Theks.Product.Domain.csproj" />
+    <Project Path="Theks.Product.Infrastructure/Theks.Product.Infrastructure.csproj" />
+  </Folder>
+</Solution>

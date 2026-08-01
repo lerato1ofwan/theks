@@ -1,0 +1,20 @@
+﻿{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5001",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_CONNECTION_STRING": "Server=localhost;Database=theks-products;User Id=sa;Password=Password123!;Encrypt=True;TrustServerCertificate=True;",
+        "SERILOG_FILENAME": "Theks.Product.Api",
+        "AUTHENTICATION_KEY": "a473bf75591fc4f9663d6926276e7f86aea28a4b871dceaadae8a995adfca1a4",
+        "AUTHENTICATION_ISSUER": "http://localhost:5000",
+        "AUTHENTICATION_AUDIENCE": "http://localhost:5000"
+      }
+    }
+  }
+}
