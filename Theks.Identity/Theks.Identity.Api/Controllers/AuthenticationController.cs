@@ -42,5 +42,5 @@ public class AuthenticationController(
         var response = await userService.GetUserAsync(id, cancellationToken);
 
         return Ok(response);
-    } 
+    }
 }
