@@ -60,11 +60,11 @@ public class ProductRepository(ProductDbContext dbContext) : IProductRepository
         }
     }
 
-    public async Task<Domain.Entities.Product> FindByIdAsync(Guid id)
+    public async Task<Domain.Entities.Product?> FindByIdAsync(Guid id)
     {
         try
         {
-            var productResult = await FindByIdAsync(id);
+            var productResult = await dbContext.Products.FirstOrDefaultAsync(_ => _.Id == id);
             return productResult;
         }
         catch (Exception ex)

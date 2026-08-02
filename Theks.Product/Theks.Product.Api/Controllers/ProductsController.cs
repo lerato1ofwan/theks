@@ -20,10 +20,20 @@ public class ProductsController
         return Ok(list);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:guid}")]
     public async Task<ActionResult<Application.DTOs.Product>> GetProduct(Guid id)
     {
         var productResult = await productRepository.FindByIdAsync(id);
+        if (productResult is null)
+        {
+            return NotFound(new ProblemDetails
+            {
+                Status = StatusCodes.Status404NotFound,
+                Title = "Product Not Found",
+                Detail = $"The product with ID '{id}' was not found",
+                Instance = HttpContext.Request.Path
+            });
+        }
 
         var (product, _) = ProductMapper.FromEntity(productResult, null);
 
