@@ -26,7 +26,7 @@ public static class ProductMapper
     /// </summary>
     public static Domain.Entities.Product ToEntity(Product dto)
     {
-        // Preserve existing Id for updates; for creates the domain entity will generate a new Id.
+        // @Hint: Preserve existing Id for updates; for creates the domain entity will generate a new Id.
         var entity = new Domain.Entities.Product
         {
             Name = dto.Name,

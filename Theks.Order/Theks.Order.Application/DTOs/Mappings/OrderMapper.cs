@@ -2,12 +2,23 @@ namespace Theks.Order.Application.DTOs.Mappings;
 
 public static class OrderMapper
 {
-    public static Domain.Entities.Order ToEntity(Order order) => new()
+    public static Domain.Entities.Order ToEntity(Order order)
     {
-        ProductId = order.ProductId,
-        ClientId = order.ClientId,
-        Quantity = order.Quantity
-    };
+        // @Hint: Preserve existing Id for updates; for creates the domain entity will generate a new Id.
+        var entity = new Domain.Entities.Order
+        {
+            ProductId = order.ProductId,
+            ClientId = order.ClientId,
+            Quantity = order.Quantity
+        };
+
+        if (order.Id != Guid.Empty)
+        {
+            entity.Id = order.Id;
+        }
+
+        return entity;
+    }
 
     public static Order FromEntity(Domain.Entities.Order order)
     {

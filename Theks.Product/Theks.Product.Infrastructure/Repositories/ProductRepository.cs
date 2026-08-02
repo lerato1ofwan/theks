@@ -29,7 +29,12 @@ public class ProductRepository(ProductDbContext dbContext) : IProductRepository
     {
         try
         {
-            dbContext.Entry(entity).State = EntityState.Detached;
+            // @Hint: Tracking protection: check if local context is already tracking this ID to avoid EF conflicts
+            var local = dbContext.Products.Local.FirstOrDefault(entry => entry.Id == entity.Id);
+            if (local is not null)
+            {
+                dbContext.Entry(entity).State = EntityState.Detached;
+            }
 
             dbContext.Products.Update(entity);
             await dbContext.SaveChangesAsync(cancellationToken);
