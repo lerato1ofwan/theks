@@ -8,7 +8,7 @@ using Theks.Shared.DependencyInjection;
 
 namespace Theks.Product.Infrastructure;
 
-public static class DependencyInjection
+public static class ServiceContainer
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {

@@ -1,0 +1,21 @@
+﻿{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5002",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "API_GATEWAY_BASE_URL": "http://localhost",
+        "SERILOG_FILENAME": "Theks.Order.Api",
+        "DB_CONNECTION_STRING": "Server=localhost;Database=theks-orders;User Id=sa;Password=Password123!;Encrypt=True;TrustServerCertificate=True;",
+        "AUTHENTICATION_KEY": "a473bf75591fc4f9663d6926276e7f86aea28a4b871dceaadae8a995adfca1a4",
+        "AUTHENTICATION_ISSUER": "http://localhost:5000",
+        "AUTHENTICATION_AUDIENCE": "http://localhost:5000",
+        "PRODUCT_API_BASE_URL":"http://localhost:5001"
+      }
+    }
+  }
+}

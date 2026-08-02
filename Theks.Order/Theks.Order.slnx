@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Theks.Order.API/Theks.Order.API.csproj" />
+  <Project Path="Theks.Order.Application/Theks.Order.Application.csproj" />
+  <Project Path="Theks.Order.Domain/Theks.Order.Domain.csproj" />
+  <Project Path="Theks.Order.Infrastructure/Theks.Order.Infrastructure.csproj" />
+</Solution>

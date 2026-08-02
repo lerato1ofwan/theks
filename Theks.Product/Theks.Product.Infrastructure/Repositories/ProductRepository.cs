@@ -13,28 +13,33 @@ public class ProductRepository(ProductDbContext dbContext) : IProductRepository
     {
         try
         {
-            var productResult = await GetByAsync(_ => _.Name!.Equals(entity.Name, StringComparison.OrdinalIgnoreCase));
-            if (productResult is not null && !string.IsNullOrWhiteSpace(productResult.Name))
-            {
-                return new Response(false, $"Product: {entity.Name} already exists");
-            }
+            await dbContext.Products.AddAsync(entity, cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
 
-            var product = (await dbContext.Products.AddAsync(entity)).Entity;
-            await dbContext.SaveChangesAsync();
-
-            if (product is not null)
-            {
-                return new Response(true, $"Product: {product.Name} added succesfully");
-            }
-            else
-            {
-                return new Response(false, $"Error occurred while adding: {entity.Name} ");
-            }
+            return new Response(true, $"Product: {entity.Name} added successfully.");
         }
         catch (Exception ex)
         {
             LogException.LogExceptions(ex);
-            return new Response(false, $"Error occurred when adding: {entity.Name}");
+            return new Response(false, "An error occurred while saving the product.");
+        }
+    }
+
+    public async Task<Response> UpdateAsync(Domain.Entities.Product entity, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            dbContext.Entry(entity).State = EntityState.Detached;
+
+            dbContext.Products.Update(entity);
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            return new Response(true, $"Product: {entity.Name} updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            LogException.LogExceptions(ex);
+            return new Response(false, "An error occurred while updating the product.");
         }
     }
 
@@ -42,21 +47,15 @@ public class ProductRepository(ProductDbContext dbContext) : IProductRepository
     {
         try
         {
-            var productResult = await FindByIdAsync(entity.Id);
-            if (productResult is null)
-            {
-                return new Response(false, $"Product: {entity.Name} not found");
-            }
-
             dbContext.Products.Remove(entity);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync(cancellationToken);
 
-            return new Response(true, $"Product: {productResult.Name} deleted successfully");
+            return new Response(true, $"Product: {entity.Name} deleted successfully.");
         }
         catch (Exception ex)
         {
             LogException.LogExceptions(ex);
-            return new Response(false, $"Error occurred when deleting: {entity.Name}");
+            return new Response(false, "An error occurred while deleting the product.");
         }
     }
 
@@ -64,13 +63,13 @@ public class ProductRepository(ProductDbContext dbContext) : IProductRepository
     {
         try
         {
-            var productResult = await dbContext.Products.FirstOrDefaultAsync(_ => _.Id == id);
-            return productResult;
+            // @Hint: Prefer FindAsync over FirstOrDefaultAsync for tracking-heavy primary key lookups
+            return await dbContext.Products.FindAsync(id);
         }
         catch (Exception ex)
         {
             LogException.LogExceptions(ex);
-            throw new Exception($"Error occurred retrieving product with Id: {id}");
+            throw new InvalidOperationException($"Error retrieving product with ID: {id}", ex);
         }
     }
 
@@ -78,14 +77,12 @@ public class ProductRepository(ProductDbContext dbContext) : IProductRepository
     {
         try
         {
-            var productResult = await dbContext.Products.AsNoTracking().ToListAsync();
-
-            return productResult;
+            return await dbContext.Products.AsNoTracking().ToListAsync();
         }
         catch (Exception ex)
         {
             LogException.LogExceptions(ex);
-            throw new Exception($"Error occurred retrieving products");
+            throw new InvalidOperationException("Error retrieving products", ex);
         }
     }
 
@@ -100,30 +97,7 @@ public class ProductRepository(ProductDbContext dbContext) : IProductRepository
         catch (Exception ex)
         {
             LogException.LogExceptions(ex);
-            throw new Exception($"Error occurred retrieving products");
-        }
-    }
-
-    public async Task<Response> UpdateAsync(Domain.Entities.Product entity, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            var productResult = await FindByIdAsync(entity.Id);
-            if (productResult is null)
-            {
-                return new Response(false, $"Product: {entity.Name} not found");
-            }
-
-            dbContext.Entry(productResult).State = EntityState.Detached;
-            dbContext.Products.Update(entity);
-            await dbContext.SaveChangesAsync();
-
-            return new Response(true, $"Product: {productResult.Name} updated successfully");
-        }
-        catch (Exception ex)
-        {
-            LogException.LogExceptions(ex);
-            return new Response(false, $"Error occurred when updating: {entity.Name}");
+            throw new InvalidOperationException("Error executing filter query on products", ex);
         }
     }
 }
