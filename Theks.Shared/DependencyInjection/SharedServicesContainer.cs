@@ -34,7 +34,6 @@ public static class SharedServicesContainer
     public static IApplicationBuilder UseSharedPolicies(this IApplicationBuilder app)
     {
         app.UseMiddleware<GlobalException>();
-
         //app.UseMiddleware<ApiGatewayListener>();
 
         return app;

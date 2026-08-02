@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Theks.Identity.Api/Theks.Identity.Api.csproj" />
+  <Project Path="Theks.Identity.Application/Theks.Identity.Application.csproj" />
+  <Project Path="Theks.Identity.Domain/Theks.Identity.Domain.csproj" />
+  <Project Path="Theks.Identity.Infrastructure/Theks.Identity.Infrastructure.csproj" />
+</Solution>
