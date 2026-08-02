@@ -430,3 +430,4 @@ FodyWeavers.xsd
 .DS_Store
 **/.idea/**
 **.vscode/**
+**Theks.*.Api-*.text

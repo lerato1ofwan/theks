@@ -29,14 +29,17 @@ public class ProductRepository(ProductDbContext dbContext) : IProductRepository
     {
         try
         {
-            // @Hint: Tracking protection: check if local context is already tracking this ID to avoid EF conflicts
-            var local = dbContext.Products.Local.FirstOrDefault(entry => entry.Id == entity.Id);
-            if (local is not null)
+            var existing = await dbContext.Products.FindAsync(entity.Id, cancellationToken);
+            if (existing is null)
             {
-                dbContext.Entry(entity).State = EntityState.Detached;
+                return new Response(false, $"Product with Id '{entity.Id}' was not found.");
             }
 
-            dbContext.Products.Update(entity);
+            existing.Name = entity.Name;
+            existing.Description = entity.Description;
+            existing.Price = entity.Price;
+            existing.Quantity = entity.Quantity;
+
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return new Response(true, $"Product: {entity.Name} updated successfully.");
