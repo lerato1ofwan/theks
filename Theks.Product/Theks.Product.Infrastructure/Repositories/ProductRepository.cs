@@ -89,14 +89,13 @@ public class ProductRepository(ProductDbContext dbContext) : IProductRepository
         }
     }
 
-    public async Task<Domain.Entities.Product> GetByAsync(Expression<Func<Domain.Entities.Product, bool>> predicate, CancellationToken cancellationToken = default)
+    public async Task<Domain.Entities.Product?> GetByAsync(Expression<Func<Domain.Entities.Product, bool>> predicate, CancellationToken cancellationToken = default)
     {
         try
         {
-            var productResult = await dbContext.Products.Where(predicate).FirstOrDefaultAsync();
-
-
-            return productResult is not null ? productResult : null!;
+            return await dbContext.Products
+                .AsNoTracking()
+                .FirstOrDefaultAsync(predicate, cancellationToken);
         }
         catch (Exception ex)
         {
