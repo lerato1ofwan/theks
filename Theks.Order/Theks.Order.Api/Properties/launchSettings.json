@@ -14,7 +14,8 @@
         "AUTHENTICATION_KEY": "a473bf75591fc4f9663d6926276e7f86aea28a4b871dceaadae8a995adfca1a4",
         "AUTHENTICATION_ISSUER": "http://localhost:5000",
         "AUTHENTICATION_AUDIENCE": "http://localhost:5000",
-        "PRODUCT_API_BASE_URL":"http://localhost:5001"
+        "PRODUCT_API_BASE_URL": "http://localhost:5001",
+        "USER_API_BASE_URL": "http://localhost:5002"
       }
     }
   }

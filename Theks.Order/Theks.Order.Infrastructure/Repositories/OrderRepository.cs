@@ -119,17 +119,20 @@ public class OrderRepository(
 
     public async Task<Response> UpdateAsync(Domain.Entities.Order entity, CancellationToken cancellationToken = default)
     {
-           try
+        try
         {
-            var order = await FindByIdAsync(entity.Id);
-            if(order is null)
+            // @Hint: Load the tracked entity and apply changes to avoid EF Core tracking conflicts.
+            var existing = await dbContext.Orders.FindAsync(new object[] { entity.Id }, cancellationToken);
+            if (existing is null)
             {
                 return new Response(false, "Order not found");
             }
 
-            dbContext.Entry(order).State = EntityState.Detached;
-            dbContext.Orders.Update(entity);
-            await dbContext.SaveChangesAsync();
+            existing.ProductId = entity.ProductId;
+            existing.ClientId = entity.ClientId;
+            existing.Quantity = entity.Quantity;
+
+            await dbContext.SaveChangesAsync(cancellationToken);
 
             return new Response(true, "Order updated successfully");
         }
